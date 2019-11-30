@@ -3,9 +3,9 @@
 //constantes:
 #define MAX_INIMIGOS 100
 #define INIMIGOS_INICIO 10
+#define LarguraTela 1000
+#define AlturaTela 550
 
-int LarguraTela = 1000;
-int AlturaTela = 550;
 Vector2 posicaojogador = { (float)LarguraTela/2, (float)AlturaTela/2 };
 
 //structs:
@@ -13,7 +13,7 @@ Vector2 posicaojogador = { (float)LarguraTela/2, (float)AlturaTela/2 };
 typedef enum tela{
     MENU = 0,
     INSTRUCOES,
-    GANHADORES
+    GANHADORES,
     JOGAR,
     FINAL
 }TELA;
