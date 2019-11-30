@@ -2,6 +2,7 @@
 #include<stdlib.h>
 #include "raylib.h"
 #include "globais.h"
+#include "tela_instrucoes.h"
 
 //funções
 void atualizadesenho();
@@ -41,11 +42,12 @@ void atualizadesenho(){
         case(MENU):
         {
             funçao
-        } break;
+        } break;*/
         case(INSTRUCOES):
         {
-            funçao
-        } break;
+            void atualizar_instrucoes();
+            void desenhar_instrucoes();
+        } break;/*
         case(GANHADORES):
         {
             funçao
