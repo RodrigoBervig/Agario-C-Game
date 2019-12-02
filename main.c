@@ -3,6 +3,7 @@
 #include "raylib.h"
 #include "globais.h"
 #include "tela_instrucoes.h"
+#include "tela_jogar.h"
 
 //funções
 void atualizadesenho();
@@ -11,10 +12,11 @@ int main(){
      // Inicializa
     //--------------------------------------------------------------------------------------
         
-    InitWindow(LarguraTela, AlturaTela, "agario.c");
+    InitWindow(LARGURATELA, ALTURATELA, "agario.c");
     
     jogo.telaAtual = MENU;
     jogo.sairjogo = 0;
+    jogador.r = R_INICIO
     
     //--------------------------------------------------------------------------------------
     
