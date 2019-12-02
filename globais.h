@@ -1,12 +1,13 @@
 //arquivo contendo variáveis globais e constantes utilizadas no jogo
-
+#include "raylib.h"
 //constantes:
-#define MAX_INIMIGOS 100
-#define INIMIGOS_INICIO 10
-#define LarguraTela 1000
-#define AlturaTela 550
+#define MAX_INIMIGOS 110
+#define INIMIGOS_INICIO 75
+#define LARGURATELA 1000
+#define ALTURATELA 550
+#define R_INICIO 30
 
-Vector2 posicaojogador = { (float)LarguraTela/2, (float)AlturaTela/2 };
+Vector2 posicaojogador = { (float)LARGURATELA/2, (float)ALTURATELA/2 };
 
 //structs:
 
@@ -18,28 +19,38 @@ typedef enum tela{
     FINAL
 }TELA;
 
-typedef struct pos{
-    int x, y;
-}POS,
-pPOS;
+typedef enum idtipo{
+    NORMAL = 0,       //BLUE = NORMAL
+    VENENOSA,       //LIME = VENENOSA
+    EXPLOSIVA       //BLACK = EXPLOSIVA
+}IDTIPO;
+
+typedef enum idmov{
+    ESTATICA = 0,
+    ALEATORIA,
+    DIRECIONADA,
+    PERSEGUIDORA
+}IDMOV;
 
 typedef struct jogador{
-    int estado, vivo, vmodulo;
+    int envenenado, vivo;
     float r;
 }JOGADOR,
 pJOGADOR;
 
 typedef struct inimigo{
-    POS p;
-    int idtipo, idmov, vmodulo;
+    Vector2 p;
+    IDTIPO tipo;
+    IDMOV mov;
+    int vmodulo;
     float r;
 }INIMIGO,
 pINIMIGO;
 
 typedef struct jogo{
     TELA telaAtual;
-    int sairjogo, jogonovo;
-    double tempodejogo;    
+    int pausa, jogonovo;
+    double tempodejogo, buffer;    
 }JOGO;
 
 //variáveis :
@@ -47,4 +58,6 @@ JOGO jogo;
 JOGADOR jogador;
 INIMIGO inimigos[MAX_INIMIGOS];
 int inimigos_vivos;
+
+int delay = 0;
 
