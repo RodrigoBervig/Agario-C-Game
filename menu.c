@@ -1,6 +1,7 @@
 #include "raylib.h"
 #include "raymath.h"
 #include "physac.h"
+#include "globais.h"
 #include <stdlib.h>
 
 //#include "defines.h"
@@ -33,20 +34,24 @@ int main()
 
         }
         if (IsKeyPressed(KEY_SPACE)){
-            switch (menuSelected)
-            {
-                case 0:
-                { 
+            switch (menuSelected){
+                case 0: { 
                     //game.framesCounter = 0;
-                    //game.currentScreen = LOADING;
+                    jogo.telaAtual = JOGAR;
                     
                     //LoadLevel(game.currentLevel);
                 } break;
-                case 1:
-                {
+                case 1: {
+                    jogo.telaAtual = GANHADORES;
+                }
+                case 2: {
+                    jogo.telaAtual = CARREGAR;
+                }
+                case 3: {
                     //game.framesCounter = 0;
                     
                     //game.QuitGame = true;
+                    CloseWindow();
                 } break;
             }
         }
