@@ -1,0 +1,2 @@
+void atualizajogo();
+void desenhajogo();
