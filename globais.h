@@ -17,6 +17,7 @@ typedef enum tela{
     INSTRUCOES,
     GANHADORES,
     JOGAR,
+    CARREGAR,
     FINAL
 }TELA;
 
