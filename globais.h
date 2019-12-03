@@ -6,7 +6,8 @@
 #define LARGURATELA 1000
 #define INIMIGOS_INICIO 75
 #define MAX_INIMIGOS 110
-#define menuSelect 0
+
+static int menuSelected = 0;
 
 Vector2 posicaojogador = { (float)LARGURATELA/2, (float)ALTURATELA/2 };
 

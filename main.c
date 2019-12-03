@@ -4,6 +4,7 @@
 #include "globais.h"
 #include "tela_instrucoes.h"
 #include "tela_jogar.h"
+#include "menu.h"
 
 //funções
 void atualizadesenho();
@@ -15,8 +16,8 @@ int main(){
     InitWindow(LARGURATELA, ALTURATELA, "agario.c");
     
     jogo.telaAtual = MENU;
-    jogo.sairjogo = 0;
-    jogador.r = R_INICIO
+    
+    jogador.r = R_INICIO;
     
     //--------------------------------------------------------------------------------------
     
@@ -25,7 +26,7 @@ int main(){
     //inicializar telaatual do jogo como menu
     
      // Main game loop
-    while (!WindowShouldClose() && !jogo.sairjogo)    // Detecta se fecha a janela de jogo ou aperta tecla Esc
+    while (!WindowShouldClose())    // Detecta se fecha a janela de jogo ou aperta tecla Esc
     {                
         atualizadesenho();        
     }
@@ -40,31 +41,29 @@ int main(){
 
 void atualizadesenho(){
     
-    /*switch(jogo.telaAtual){
+    switch(jogo.telaAtual){
         case(MENU):
         {
-            funçao
-        } break;*/
+            TitleDraw();
+            TitleUpdate();
+        } break;
         case(INSTRUCOES):
         {
-            void atualizar_instrucoes();
-            void desenhar_instrucoes();
-        } break;/*
+            atualizar_instrucoes();
+            desenhar_instrucoes();
+        } break;
         case(GANHADORES):
         {
-            funçao
+            //
         } break;
         case(JOGAR):
-        {
-            funçao:
-                       
-            .
-            .
-            .
+        {   
+            atualizajogo();
+            desenhajogo();
         } break;
         case(FINAL):
         {
-            funçao
+            //
         } break;
-    }*/    
+    }   
 }

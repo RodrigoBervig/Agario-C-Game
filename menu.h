@@ -1,2 +1,2 @@
-void titleDraw();
-void titleUpdate();
+void TitleDraw();
+void TitleUpdate();

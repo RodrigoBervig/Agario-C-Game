@@ -4,8 +4,20 @@
 #include "globais.h"
 #include <stdlib.h>
 
-
-
+void chamaJogo()
+{
+    jogo.tempodejogo = 0;
+    
+    jogador.vivo = 1;
+    jogador.r = R_INICIO;
+    jogador.envenenado = 0;
+    
+    inimigos_vivos = INIMIGOS_INICIO;
+   
+    jogo.tempodejogo = GetTime();
+    jogo.buffer = 0;
+    jogo.pausa = 0;
+}
 
 
 void TitleUpdate()
@@ -45,39 +57,39 @@ void TitleDraw()
 
         ClearBackground(BLACK);
 
-        DrawText("Agario", screenWidth/2 - MeasureText("Agario", 75)/2, screenHeight * 0.1, 75,  GREEN); 
+        DrawText("Agario", LARGURATELA/2 - MeasureText("Agario", 75)/2, ALTURATELA * 0.1, 75,  GREEN); 
         
         
         DrawText(((menuSelected == 0) ? "- Jogar -" : "Jogar"), // O que é desenhado (ver condicionais ternários)
-            screenWidth/2 - MeasureText(((menuSelected == 0) ? "- Jogar -" : "Jogar"), 40)/2, //Posição x do texto
-            screenHeight * 0.30, //posição y do texto
+            LARGURATELA/2 - MeasureText(((menuSelected == 0) ? "- Jogar -" : "Jogar"), 40)/2, //Posição x do texto
+            ALTURATELA * 0.30, //posição y do texto
             40, //tamanho do texto
             (menuSelected == 0) ? BLUE : WHITE); //cor em que o texto vai estar
         DrawText(((menuSelected == 1) ? "- Score Board -" : "Score Board"), 
-            screenWidth/2 - MeasureText(((menuSelected == 1) ? "- Score Board -" : "Score Board"), 40)/2, 
-            screenHeight * 0.45, 
+            LARGURATELA/2 - MeasureText(((menuSelected == 1) ? "- Score Board -" : "Score Board"), 40)/2, 
+            ALTURATELA * 0.45, 
             40, 
             (menuSelected == 1) ? BLUE : WHITE);
         DrawText(((menuSelected == 2) ? "- Carregar Jogo -" : "Carregar Jogo"), 
-            screenWidth/2 - MeasureText(((menuSelected == 2) ? "- Carregar Jogo -" : "Carregar Jogo"), 40)/2, 
-            screenHeight * 0.60, 
+            LARGURATELA/2 - MeasureText(((menuSelected == 2) ? "- Carregar Jogo -" : "Carregar Jogo"), 40)/2, 
+            ALTURATELA * 0.60, 
             40, 
             (menuSelected == 2) ? BLUE : WHITE);
         DrawText(((menuSelected == 3) ? "- Sair -" : "Sair"), 
-            screenWidth/2 - MeasureText(((menuSelected == 3) ? "- Sair -" : "Sair"), 40)/2, 
-            screenHeight * 0.75, 
+            LARGURATELA/2 - MeasureText(((menuSelected == 3) ? "- Sair -" : "Sair"), 40)/2, 
+            ALTURATELA * 0.75, 
             40, 
             (menuSelected == 3) ? RED : WHITE);        
 
         //Instruções do menu
         DrawText("-SPACE- select    -W- up  -S- down", 
-            screenWidth/2 - MeasureText("-SPACE- select    -W- up  -S- down", 20)/2, 
-            screenHeight * 0.90, 20, WHITE);
+            LARGURATELA/2 - MeasureText("-SPACE- select    -W- up  -S- down", 20)/2, 
+            ALTURATELA * 0.90, 20, WHITE);
         
         // Créditos
         DrawText("[Criado por - João Pedro Ourique e Rodrigo Bervig - INF UFRGS]",
-            screenWidth/2 - MeasureText("[Criado por - João Pedro Ourique e Rodrigo Bervig - INF UFRGS]", 15)/2,
-            screenHeight * 0.95,
+            LARGURATELA/2 - MeasureText("[Criado por - João Pedro Ourique e Rodrigo Bervig - INF UFRGS]", 15)/2,
+            ALTURATELA * 0.95,
             15,
             WHITE);
         
