@@ -4,42 +4,25 @@
 #include "globais.h"
 #include <stdlib.h>
 
-//#include "defines.h"
 
 
-int main()
+
+
+void TitleUpdate()
 {
-    Font fontTexto = GetFontDefault();
-    fontTexto.baseSize = 16;
-    fontTexto.charsCount = 95;
 
-    const int screenWidth = 1000;
-    const int screenHeight = 600;
-
-    InitWindow(screenWidth, screenHeight, "teste");
-
-    SetTargetFPS(60);
-
-    static int menuSelected = 0;
-
-    void TitleUpdate()
-    {
-
-        if (IsKeyPressed(KEY_DOWN) || IsKeyPressed('S')){
+    if (IsKeyPressed(KEY_DOWN) || IsKeyPressed('S')){
             menuSelected = (menuSelected + 1) % 4;
             
-        }
+    }
         else if (IsKeyPressed(KEY_UP) || IsKeyPressed('W')){
             menuSelected = (menuSelected == 0)? menuSelected = 3 : --menuSelected; 
 
         }
-        if (IsKeyPressed(KEY_SPACE)){
+        if (IsKeyPressed(KEY_ENTER)){
             switch (menuSelected){
-                case 0: { 
-                    //game.framesCounter = 0;
+                case 0: { //JOGAR
                     jogo.telaAtual = JOGAR;
-                    
-                    //LoadLevel(game.currentLevel);
                 } break;
                 case 1: {
                     jogo.telaAtual = GANHADORES;
@@ -47,10 +30,7 @@ int main()
                 case 2: {
                     jogo.telaAtual = CARREGAR;
                 }
-                case 3: {
-                    //game.framesCounter = 0;
-                    
-                    //game.QuitGame = true;
+                case 3: {                    
                     CloseWindow();
                 } break;
             }
@@ -58,10 +38,8 @@ int main()
     }
 
 
-
-
-    void TitleDraw()
-    {
+void TitleDraw()
+{
 
         BeginDrawing();
 
@@ -105,19 +83,3 @@ int main()
         
         EndDrawing();
     }
-
-    /*Vector2 vetor = (Vector2){screenWidth / 2 - MeasureTextEx(fontTexto, "Agario-se", 60, FONT_SPACING).x / 2,
-            screenHeight * 0.15};*/
-
-    while (!WindowShouldClose())
-    {
-
-        TitleDraw();
-        TitleUpdate();
-
-    }
-
-    CloseWindow();
-
-    return 0;
-}

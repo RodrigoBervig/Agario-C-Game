@@ -1,0 +1,2 @@
+void titleDraw();
+void titleUpdate();
