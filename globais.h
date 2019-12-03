@@ -5,6 +5,7 @@
 #define INIMIGOS_INICIO 10
 #define LarguraTela 1000
 #define AlturaTela 550
+#define menuSelect 0
 
 Vector2 posicaojogador = { (float)LarguraTela/2, (float)AlturaTela/2 };
 
