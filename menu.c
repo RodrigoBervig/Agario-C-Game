@@ -1,8 +1,9 @@
 #include "raylib.h"
 #include "raymath.h"
 #include "physac.h"
+#include <stdlib.h>
 
-#include "defines.h"
+//#include "defines.h"
 
 
 int main()
@@ -24,11 +25,11 @@ int main()
     {
 
         if (IsKeyPressed(KEY_DOWN) || IsKeyPressed('S')){
-            menuSelected = (menuSelected == 0) ? 1 : 0;
+            menuSelected = (menuSelected + 1) % 4;
             
         }
         else if (IsKeyPressed(KEY_UP) || IsKeyPressed('W')){
-            menuSelected = (menuSelected == 1) ? 0 : 1;
+            menuSelected = (menuSelected == 0)? menuSelected = 3 : --menuSelected; 
 
         }
         if (IsKeyPressed(KEY_SPACE)){
@@ -61,21 +62,42 @@ int main()
 
         ClearBackground(BLACK);
 
-        DrawText("Agario", screenWidth/2 - MeasureText("Agario", 60)/2, screenHeight * 0.1, 60,  WHITE); 
+        DrawText("Agario", screenWidth/2 - MeasureText("Agario", 75)/2, screenHeight * 0.1, 75,  GREEN); 
         
         
-        DrawText(((menuSelected == 0) ? "- Jogar -" : "Jogar"), screenWidth/2 - MeasureText(((menuSelected == 0) ? "- Jogar -" : "Jogar"), 40)/2, screenHeight * 0.35, 40, (menuSelected == 0) ? RED : WHITE);
-        
-        DrawText(((menuSelected == 1) ? "- Sair -" : "Sair"), screenWidth/2 - MeasureText(((menuSelected == 1) ? "- Sair -" : "Sair"), 40)/2, screenHeight * 0.50, 40, (menuSelected == 1) ? RED : WHITE);
-    
-    
+        DrawText(((menuSelected == 0) ? "- Jogar -" : "Jogar"), // O que é desenhado (ver condicionais ternários)
+            screenWidth/2 - MeasureText(((menuSelected == 0) ? "- Jogar -" : "Jogar"), 40)/2, //Posição x do texto
+            screenHeight * 0.30, //posição y do texto
+            40, //tamanho do texto
+            (menuSelected == 0) ? BLUE : WHITE); //cor em que o texto vai estar
+        DrawText(((menuSelected == 1) ? "- Score Board -" : "Score Board"), 
+            screenWidth/2 - MeasureText(((menuSelected == 1) ? "- Score Board -" : "Score Board"), 40)/2, 
+            screenHeight * 0.45, 
+            40, 
+            (menuSelected == 1) ? BLUE : WHITE);
+        DrawText(((menuSelected == 2) ? "- Carregar Jogo -" : "Carregar Jogo"), 
+            screenWidth/2 - MeasureText(((menuSelected == 2) ? "- Carregar Jogo -" : "Carregar Jogo"), 40)/2, 
+            screenHeight * 0.60, 
+            40, 
+            (menuSelected == 2) ? BLUE : WHITE);
+        DrawText(((menuSelected == 3) ? "- Sair -" : "Sair"), 
+            screenWidth/2 - MeasureText(((menuSelected == 3) ? "- Sair -" : "Sair"), 40)/2, 
+            screenHeight * 0.75, 
+            40, 
+            (menuSelected == 3) ? RED : WHITE);        
 
-        DrawText("-SPACE- select    -W- up  -S- down", screenWidth/2 - MeasureText("-SPACE- select    -W- up  -S- down", 20)/2 , screenHeight * 0.8, 20, WHITE);
-    
-        // Draw credits
-        DrawText("[Criado por - João Pedro Ourique e Rodrigo Bervig - INF UFRGS]", screenWidth/2 - MeasureText("[Criado por - João Pedro Ourique e Rodrigo Bervig - INF UFRGS]", 15)/2 , screenHeight * 0.95  , 15, WHITE);
+        //Instruções do menu
+        DrawText("-SPACE- select    -W- up  -S- down", 
+            screenWidth/2 - MeasureText("-SPACE- select    -W- up  -S- down", 20)/2, 
+            screenHeight * 0.90, 20, WHITE);
         
-
+        // Créditos
+        DrawText("[Criado por - João Pedro Ourique e Rodrigo Bervig - INF UFRGS]",
+            screenWidth/2 - MeasureText("[Criado por - João Pedro Ourique e Rodrigo Bervig - INF UFRGS]", 15)/2,
+            screenHeight * 0.95,
+            15,
+            WHITE);
+        
         EndDrawing();
     }
 
@@ -87,20 +109,6 @@ int main()
 
         TitleDraw();
         TitleUpdate();
-
-        /*DrawText(fontTexto, "Agario-se", (Vector2){screenWidth / 2 - MeasureTextEx(fontTexto, "Agario-se", 60, FONT_SPACING).x / 2,
-            screenHeight * 0.15},
-            60,
-            FONT_SPACING, WHITE);
-        */
-        /*DrawText(fontTexto, "agario-se", (Vector2){0,0},
-            60,
-            FONT_SPACING, WHITE);*/
-        //DrawText(fontTexto, "Agario", (Vector2){0,0}, 60, 1, WHITE);
-        //DrawText("Agario", 40, 40,  20,  WHITE);
-        //DrawText("Agario", screenWidth / 2 - MeasureTextEx(fontTexto, "Agario-se", 60, FONT_SPACING).x / 2, screenHeight * 0.15,  20,  WHITE);
-
-        /*DrawText( "ray mario", (Vector2){screenWidth / 2 - MeasureTextEx( "ray mario", 60, FONT_SPACING).x / 2, screenHeight * 0.15f}, 60, FONT_SPACING, WHITE);*/
 
     }
 
