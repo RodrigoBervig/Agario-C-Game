@@ -3,6 +3,7 @@
 #include "physac.h"
 #include "globais.h"
 #include <stdlib.h>
+#include "tela_jogar.h"
 
 void chamaJogo()
 {
