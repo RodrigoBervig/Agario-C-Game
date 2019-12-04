@@ -124,14 +124,23 @@ void move_inimigos(){
 
 void desenha_pausa(){
     
-    DrawRectangle(250, 130, 400, 240,RED);
-    DrawRectangleLines(250, 130, 400, 240, BLACK);
+    //DrawRectangle(250, 150, 500, 250, RED);
+    DrawRectangleGradientV(250, 150, 500, 250, RED, LIGHTGRAY);
 
-    DrawText("Jogo Pausado!", 350, 150, 20, WHITE);
-    DrawText("- S (Salvar)", 270, 190, 15, WHITE);
-    DrawText("- ENTER (Voltar ao jogo)", 270, 240, 15, WHITE);
-    DrawText("- M (Voltar ao Menu)", 270, 290, 15, WHITE);
-    DrawText("- ESC (Sair do jogo)", 270, 340, 15, WHITE);
+    DrawRectangleLines(250, 150, 500, 250, BLACK);
+
+        /*DrawText(, 
+            LARGURATELA/2 - MeasureText(((menuSelected == 2) ? "- Carregar Jogo -" : "Carregar Jogo"), 40)/2, 
+            ALTURATELA * 0.60, 
+            40, 
+            (menuSelected == 2) ? BLUE : WHITE);*/
+
+    DrawText("Jogo Pausado!", LARGURATELA/2 - MeasureText("Jogo Pausado!", 25)/2, 160, 25, WHITE);
+    DrawText("- S (Salvar)", LARGURATELA/2 - MeasureText("- S (Salvar)", 17)/2, 210, 17, WHITE);
+    DrawText("- ENTER (Pausar)", LARGURATELA/2 - MeasureText("- ENTER (Pausar)", 17)/2, 260, 17, WHITE);
+    DrawText("- M (Voltar ao Menu)", LARGURATELA/2 - MeasureText("- M (Voltar ao Menu)", 17)/2, 310, 17, WHITE);
+    DrawText("- ESC (Sair do jogo)", LARGURATELA/2 - MeasureText("- ESC (Sair do jogo)", 17)/2, 360, 17, WHITE);
+
     
 }
 
@@ -257,26 +266,24 @@ void atualizajogo(){
 void desenhajogo(){
     BeginDrawing();
                
-        ClearBackground(RAYWHITE);
-        if(!jogador.envenenado)
-            DrawCircleV(posicaojogador, jogador.r, MAROON);
-        else
-            DrawCircleV(posicaojogador, jogador.r, MAGENTA);
+    ClearBackground(RAYWHITE);
+    if(!jogador.envenenado)
+         DrawCircleV(posicaojogador, jogador.r, MAROON);
+    else
+         DrawCircleV(posicaojogador, jogador.r, MAGENTA);
         
-        /*if(conta_zoom){
-            DrawText("O mundo esta ficando pequeno para voce!", 250, 125, 25, BLACK);
-            DrawText("(Zoom out)", 430, 160, 20, BLACK);
-        }*/
+    /*if(conta_zoom){
+        DrawText("O mundo esta ficando pequeno para voce!", 250, 125, 25, BLACK);
+        DrawText("(Zoom out)", 430, 160, 20, BLACK);
+    }*/
         
-        desenha_inimigos();
-        if(jogo.pausa)
+    desenha_inimigos();
+    if(jogo.pausa)
             desenha_pausa();
-        else
-            DrawText(FormatText("Score : %2.0f", GetTime() - jogo.tempodejogo + jogo.buffer), 910, 525, 15, BLACK);
+    else
+        DrawText(FormatText("Score : %2.0f", GetTime() - jogo.tempodejogo + jogo.buffer), 880, 525, 20, BLACK);
         
-     EndDrawing();
-        //----------------------------------------------------------------------------------
-    
+    EndDrawing();
 }
 
 /*int main(){
