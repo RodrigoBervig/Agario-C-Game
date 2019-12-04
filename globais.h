@@ -4,7 +4,7 @@
 #define R_INICIO 30
 #define ALTURATELA 550
 #define LARGURATELA 1000
-#define INIMIGOS_INICIO 75
+#define INIMIGOS_INICIO 50
 #define MAX_INIMIGOS 110
 
 static int menuSelected = 0;
