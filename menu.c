@@ -12,9 +12,12 @@ void chamaJogo()
     jogador.vivo = 1;
     jogador.r = R_INICIO;
     jogador.envenenado = 0;
+    jogador.v = 2.5;
     
     inimigos_vivos = INIMIGOS_INICIO;
     int i;
+    cria_novos = GetTime();
+    
     for(i=0;i<inimigos_vivos;i++){
         cria_inimigo(i);
     }
