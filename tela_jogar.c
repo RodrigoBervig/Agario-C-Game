@@ -5,7 +5,9 @@
 #include<math.h>
 /*FALTA:
 - Fazer inimigos se movimentarem
-- Arrumar onde os inimigos aparecem para não aparecer em cima do jogador(e se der não aparecerem um em cima do outro)
+- Nao aparecerem inimigos um em cima do outro
+- Zoom out
+- Ajustar coordenadas de aparecimento de inimigos em função do raio do jogador
 - Avaliar se muda a proporção normais/explosivas/venenosas
 - Poder salvar
 - Conferir variáveis
@@ -31,8 +33,13 @@ void desenha_inimigos(){
 
 void cria_inimigo(int i){       //Cria novo inimigo, chamada periodicamente e quando jogador come um inimigo
 
-    inimigos[i].p.y = GetRandomValue(-ALTURATELA, ALTURATELA);
-    inimigos[i].p.x = GetRandomValue(-LARGURATELA, LARGURATELA) ;
+    do{
+        inimigos[i].p.y = GetRandomValue(-ALTURATELA, ALTURATELA);
+    }while(abs(275 - inimigos[i].p.y)<75);
+    do{
+        inimigos[i].p.x = GetRandomValue(-LARGURATELA, LARGURATELA) ;
+    }while(abs(500 - inimigos[i].p.x)<75);    
+    
     inimigos[i].r = (int)floor(GetRandomValue(jogador.r/2, 2*jogador.r));
     inimigos[i].tipo = GetRandomValue(0,2);
     inimigos[i].mov = GetRandomValue(0,3);
@@ -106,7 +113,7 @@ void atualizajogo(){
             for(i=0;i<inimigos_vivos;i++){
                 inimigos[i].p.x -= 3.0f;
                 if(inimigos[i].p.x < -2*LARGURATELA)        //reposiciona inimigos que ficarem longe demais
-                    inimigos[i].p.x = GetRandomValue(-LARGURATELA, LARGURATELA);                    
+                    cria_inimigo(i);                    
             } 
         }
         
@@ -115,8 +122,8 @@ void atualizajogo(){
             for(i=0;i<inimigos_vivos;i++){
                 inimigos[i].p.x += 3.0f;
                 if(inimigos[i].p.x > 2*LARGURATELA)     //reposiciona inimigos que ficarem longe demais
-                    inimigos[i].p.x = GetRandomValue(-LARGURATELA, LARGURATELA); 
-            } 
+                    cria_inimigo(i);
+                } 
         }
         
         
@@ -124,7 +131,7 @@ void atualizajogo(){
             for(i=0;i<inimigos_vivos;i++){
                 inimigos[i].p.y += 3.0f;
                 if(inimigos[i].p.y > 2*ALTURATELA)      //reposiciona inimigos que ficarem longe demais
-                    inimigos[i].p.y = GetRandomValue(-ALTURATELA, ALTURATELA);
+                    cria_inimigo(i);
             } 
         }
         
@@ -133,13 +140,13 @@ void atualizajogo(){
             for(i=0;i<inimigos_vivos;i++){
                 inimigos[i].p.y -= 3.0f;
                 if(inimigos[i].p.y < -2*ALTURATELA)         //reposiciona inimigos que ficarem longe demais
-                    inimigos[i].p.y = GetRandomValue(-ALTURATELA, ALTURATELA);
+                    cria_inimigo(i);
             } 
         }
         
         colisoes();         //verifica se jogador colidiu com algum inimigo
         
-        if(((int)GetTime() - (int)jogo.tempodejogo + (int)jogo.buffer)%30 && inimigos_vivos < MAX_INIMIGOS){        //Cria um inimigo novo a cada 30s, enquanto não houverem MAX_INIMIGOS
+        if(!((int)GetTime() - (int)jogo.tempodejogo + (int)jogo.buffer)%30 && inimigos_vivos < MAX_INIMIGOS){        //Cria um inimigo novo a cada 30s, enquanto não houverem MAX_INIMIGOS
             cria_inimigo(inimigos_vivos);
             inimigos_vivos++;
         }
@@ -147,7 +154,6 @@ void atualizajogo(){
         if(jogador.envenenado){     //enquanto jogador está envenenado, incremnta delay a cada 2s
             if(GetTime() - delay > 3){     //quando se passam 3s desde que foi envenenado, passa o veneno e zera delay
                 jogador.envenenado = 0;
-                delay = 0;
             }
         }            
         
@@ -176,42 +182,4 @@ void desenhajogo(){
      EndDrawing();
         //----------------------------------------------------------------------------------
     
-}
-
-int main(){
-    // Inicializa
-    //--------------------------------------------------------------------------------------
-        
-    InitWindow(LARGURATELA, ALTURATELA, "tela_jogar.c");
-    
-    jogo.telaAtual = MENU;
-    jogo.tempodejogo = 0;
-    
-    jogador.vivo = 1;
-    jogador.r = R_INICIO;
-    jogador.envenenado = 0;
-    
-    inimigos_vivos = INIMIGOS_INICIO;
-   
-    jogo.tempodejogo = GetTime();
-    jogo.buffer = 0;
-    jogo.pausa = 0;
-    //--------------------------------------------------------------------------------------
-    
-    SetTargetFPS(60);               // Jogo roda a 60 FPS
-    
-    
-     // Main game loop
-    while (!WindowShouldClose())    // Detecta se fecha a janela de jogo ou aperta tecla Esc
-    {                
-        atualizajogo();
-        desenhajogo();
-    }
-
-    // Encerra
-    //--------------------------------------------------------------------------------------
-    CloseWindow();        // Close window and OpenGL context
-    //--------------------------------------------------------------------------------------
-
-    return 0;
 }
