@@ -1,14 +1,17 @@
-#include<stdio.h>
-#include<stdlib.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include "raylib.h"
 #include "globais.h"
-#include<math.h>
+#include <math.h>
 /*FALTA:
 - Avaliar se muda a proporção normais/explosivas/venenosas
 - Poder salvar
 - Conferir variáveis
 - ?
 */
+static Vector2 posicaojogador = { (float)LARGURATELA/2, (float)ALTURATELA/2 };
+static int delay = 0;
+
 
 void desenha_inimigos(){
     int i;
@@ -276,7 +279,7 @@ void desenhajogo(){
     
 }
 
-int main(){
+/*int main(){
      // Inicializa
     //--------------------------------------------------------------------------------------
         
@@ -322,3 +325,4 @@ int main(){
 
     return 0;
 }
+*/
