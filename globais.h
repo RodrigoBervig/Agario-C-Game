@@ -4,8 +4,9 @@
 #define R_INICIO 30
 #define ALTURATELA 550
 #define LARGURATELA 1000
-#define INIMIGOS_INICIO 50
-#define MAX_INIMIGOS 110
+#define INIMIGOS_INICIO 25
+#define MAX_INIMIGOS 50
+
 
 static int menuSelected = 0;
 
@@ -31,13 +32,16 @@ typedef enum idtipo{
 typedef enum idmov{
     ESTATICA = 0,
     ALEATORIA,
-    DIRECIONADA,
+    DIRECIONADA_N,
+    DIRECIONADA_S,
+    DIRECIONADA_L,
+    DIRECIONADA_O,
     PERSEGUIDORA
 }IDMOV;
 
 typedef struct jogador{
     int envenenado, vivo;
-    float r;
+    float r, v;
 }JOGADOR,
 pJOGADOR;
 
@@ -45,7 +49,7 @@ typedef struct inimigo{
     Vector2 p;
     IDTIPO tipo;
     IDMOV mov;
-    int vmodulo;
+    float vmodulo;
     float r;
 }INIMIGO,
 pINIMIGO;
@@ -62,5 +66,6 @@ JOGADOR jogador;
 INIMIGO inimigos[MAX_INIMIGOS];
 int inimigos_vivos;
 
+double cria_novos;
 int delay = 0;
-
+//int conta_zoom = 0;
