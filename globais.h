@@ -10,7 +10,7 @@
 
 static int menuSelected = 0;
 
-Vector2 posicaojogador = { (float)LARGURATELA/2, (float)ALTURATELA/2 };
+//Vector2 posicaojogador = { (float)LARGURATELA/2, (float)ALTURATELA/2 };
 
 //structs:
 
@@ -67,5 +67,5 @@ INIMIGO inimigos[MAX_INIMIGOS];
 int inimigos_vivos;
 
 double cria_novos;
-int delay = 0;
+//int delay = 0;
 //int conta_zoom = 0;
