@@ -15,16 +15,13 @@ int main(){
         
     InitWindow(LARGURATELA, ALTURATELA, "agario.c");
     
-    jogo.telaAtual = MENU;
-    
-    jogador.r = R_INICIO;
+    jogo.telaAtual = MENU;      //inicializar telaatual do jogo como menu
     
     //--------------------------------------------------------------------------------------
     
     SetTargetFPS(60);               // Jogo roda a 60 FPS
     
-    //inicializar telaatual do jogo como menu
-    
+        
      // Main game loop
     while (!WindowShouldClose())    // Detecta se fecha a janela de jogo ou aperta tecla Esc
     {                
@@ -53,6 +50,10 @@ void atualizadesenho(){
             desenhar_instrucoes();
         } break;
         case(GANHADORES):
+        {
+            //
+        } break;
+        case(CARREGAR):
         {
             //
         } break;
