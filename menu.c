@@ -6,6 +6,7 @@
 
 void chamaJogo()
 {
+    jogo.telaAtual = JOGAR;
     jogo.tempodejogo = 0;
     
     jogador.vivo = 1;
@@ -13,7 +14,11 @@ void chamaJogo()
     jogador.envenenado = 0;
     
     inimigos_vivos = INIMIGOS_INICIO;
-   
+    int i;
+    for(i=0;i<inimigos_vivos;i++){
+        cria_inimigo(i);
+    }
+    
     jogo.tempodejogo = GetTime();
     jogo.buffer = 0;
     jogo.pausa = 0;
@@ -34,7 +39,7 @@ void TitleUpdate()
         if (IsKeyPressed(KEY_ENTER)){
             switch (menuSelected){
                 case 0: { //JOGAR
-                    jogo.telaAtual = JOGAR;
+                    chamaJogo();
                 } break;
                 case 1: {
                     jogo.telaAtual = GANHADORES;
