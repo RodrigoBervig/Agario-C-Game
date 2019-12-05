@@ -10,8 +10,6 @@
 - ?
 */
 
-
-
 void desenha_inimigos(){
     int i;
     for(i=0;i<inimigos_vivos;i++){
@@ -37,17 +35,16 @@ void cria_inimigo(int i){       //Cria novo inimigo, chamada periodicamente e qu
 
     do{
         inimigos[i].p.y = GetRandomValue(-20*jogador.r, 20*jogador.r);
-    }while(abs(275 - inimigos[i].p.y)< 4*jogador.r && !CheckCollisionCircles(inimigos[i-1].p, inimigos[i-1].r, inimigos[i].p, inimigos[i].r));
+    }while(abs(LARGURATELA/2 - inimigos[i].p.y) < (4*jogador.r) && !CheckCollisionCircles(inimigos[i-1].p, inimigos[i-1].r, inimigos[i].p, inimigos[i].r));
     do{
         inimigos[i].p.x = GetRandomValue(-40*jogador.r, 40*jogador.r) ;
-    }while(abs(500 - inimigos[i].p.x)< 4*jogador.r && !CheckCollisionCircles(inimigos[i-1].p, inimigos[i-1].r, inimigos[i].p, inimigos[i].r));    
+    }while(abs(ALTURATELA - inimigos[i].p.x)< 4*jogador.r && !CheckCollisionCircles(inimigos[i-1].p, inimigos[i-1].r, inimigos[i].p, inimigos[i].r));    
     
-    inimigos[i].r = (int)floor(GetRandomValue(0.4*jogador.r, 1.5*jogador.r));
+    inimigos[i].r = (int)floor(GetRandomValue(0.4*jogador.r, 1.5*jogador.r)); //Seta o raio do inimigo proporcional ao raio atual do Jogador
     inimigos[i].tipo = GetRandomValue(0,2);
     inimigos[i].mov = GetRandomValue(0,6);
-    inimigos[i].vmodulo = 1 + 0.5*((int)floor(GetTime() - jogo.tempodejogo + jogo.buffer)/30)
-;      //o vmodulo dos inimigos criados é 2 + n, onde n é o piso do número de períodos de 20s que já foram jogados
-
+    inimigos[i].vmodulo = 1 + 0.5*((int)floor(GetTime() - jogo.tempodejogo + jogo.buffer)/30); 
+    //a velocidade modulo (vmodulo) dos inimigos criados é (2 + n), onde n é o piso do número de períodos de 20s que já foram jogados
 }
 
 
@@ -125,25 +122,14 @@ void move_inimigos(){
 }
 
 void desenha_pausa(){
-    
-    //DrawRectangle(250, 150, 500, 250, RED);
     DrawRectangleGradientV(250, 150, 500, 250, RED, LIGHTGRAY);
-
     DrawRectangleLines(250, 150, 500, 250, BLACK);
-
-        /*DrawText(, 
-            LARGURATELA/2 - MeasureText(((menuSelected == 2) ? "- Carregar Jogo -" : "Carregar Jogo"), 40)/2, 
-            ALTURATELA * 0.60, 
-            40, 
-            (menuSelected == 2) ? BLUE : WHITE);*/
 
     DrawText("Jogo Pausado!", LARGURATELA/2 - MeasureText("Jogo Pausado!", 25)/2, 160, 25, WHITE);
     DrawText("- S (Salvar)", LARGURATELA/2 - MeasureText("- S (Salvar)", 17)/2, 210, 17, WHITE);
     DrawText("- ENTER (Pausar)", LARGURATELA/2 - MeasureText("- ENTER (Pausar)", 17)/2, 260, 17, WHITE);
     DrawText("- M (Voltar ao Menu)", LARGURATELA/2 - MeasureText("- M (Voltar ao Menu)", 17)/2, 310, 17, WHITE);
     DrawText("- ESC (Sair do jogo)", LARGURATELA/2 - MeasureText("- ESC (Sair do jogo)", 17)/2, 360, 17, WHITE);
-
-    
 }
 
 
@@ -272,8 +258,10 @@ void desenhajogo(){
     if(!jogador.envenenado){
         DrawCircle(posicaojogador.x, posicaojogador.y, jogador.r + jogador.r * 0.1, PLAYER_COLOR_BORDER);
         DrawCircleV(posicaojogador, jogador.r, PLAYER_COLOR);
-    }else
-        DrawCircleV(posicaojogador, jogador.r, MAGENTA);
+    }else{
+        DrawCircle(posicaojogador.x, posicaojogador.y, jogador.r + jogador.r * 0.1, PLAYER_POISONED_COLOR_BORDER);
+        DrawCircleV(posicaojogador, jogador.r, PLAYER_POISONED_COLOR);
+    }
         
     /*if(conta_zoom){
         DrawText("O mundo esta ficando pequeno para voce!", 250, 125, 25, BLACK);
@@ -288,51 +276,3 @@ void desenhajogo(){
         
     EndDrawing();
 }
-
-/*int main(){
-     // Inicializa
-    //--------------------------------------------------------------------------------------
-        
-    InitWindow(LARGURATELA, ALTURATELA, "agario.c");
-    
-    jogo.telaAtual = MENU;      //inicializar telaatual do jogo como menu
-    
-    //--------------------------------------------------------------------------------------
-    
-    SetTargetFPS(60);               // Jogo roda a 60 FPS
-    
-    jogo.telaAtual = JOGAR;
-    jogo.tempodejogo = 0;
-    
-    jogador.vivo = 1;
-    jogador.r = R_INICIO;
-    jogador.envenenado = 0;
-    jogador.v = 2.5;
-    
-    inimigos_vivos = INIMIGOS_INICIO;
-    int i;
-    for(i=0;i<inimigos_vivos;i++){
-        cria_inimigo(i);
-    }
-    
-    cria_novos = GetTime();
-    
-    jogo.tempodejogo = GetTime();
-    jogo.buffer = 0;
-    jogo.pausa = 0;
-    
-     // Main game loop
-    while (!WindowShouldClose())    // Detecta se fecha a janela de jogo ou aperta tecla Esc
-    {                
-        atualizajogo();
-        desenhajogo();
-    }
-
-    // Encerra
-    //--------------------------------------------------------------------------------------
-    CloseWindow();        // Close window and OpenGL context
-    //--------------------------------------------------------------------------------------
-
-    return 0;
-}
-*/

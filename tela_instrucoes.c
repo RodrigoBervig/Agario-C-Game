@@ -1,6 +1,6 @@
 #include "raylib.h"
 #include "globais.h"
-#include<stdio.h>
+#include  <stdio.h>
 
 void atualizar_instrucoes(){
     if(jogo.telaAtual == INSTRUCOES)
@@ -10,6 +10,7 @@ void atualizar_instrucoes(){
 
 void desenhar_instrucoes(){
     BeginDrawing();
+
         ClearBackground(RAYWHITE);
         
         DrawRectangle(80, 50, 800, 450,RED);
@@ -36,6 +37,5 @@ void desenhar_instrucoes(){
         DrawText("Coma os inimigos menores que voce e fuja dos maiores!", 100, 410, 20, BLACK);
         DrawText("Pressione ENTER para voltar ao menu principal", 100, 450, 15, WHITE);       
             
-    
     EndDrawing();    
 }

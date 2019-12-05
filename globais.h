@@ -72,7 +72,7 @@ double cria_novos;
 //int delay = 0;
 //int conta_zoom = 0;
 
-/*COLORS: */
+/*COLORS*/
 #define POISON_GREEN CLITERAL(Color){115,222,73,255}
 #define POISON_GREEN_BORDER CLITERAL(Color){52,185,0,200}
 
@@ -84,3 +84,6 @@ double cria_novos;
 
 #define NORMAL_COLOR CLITERAL(Color){0,120,255,255}
 #define NORMAL_COLOR_BORDER CLITERAL(Color){0,94,200,255}
+
+#define PLAYER_POISONED_COLOR CLITERAL(Color){176,0,234,255}
+#define PLAYER_POISONED_COLOR_BORDER CLITERAL(Color){148,120,197,255}

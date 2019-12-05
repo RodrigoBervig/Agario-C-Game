@@ -1,5 +1,5 @@
-#include<stdio.h>
-#include<stdlib.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include "raylib.h"
 #include "globais.h"
 #include "tela_instrucoes.h"
@@ -37,7 +37,6 @@ int main(){
 }
 
 void atualizadesenho(){
-    
     switch(jogo.telaAtual){
         case(MENU):
         {
@@ -46,8 +45,8 @@ void atualizadesenho(){
         } break;
         case(INSTRUCOES):
         {
-            atualizar_instrucoes();
             desenhar_instrucoes();
+            atualizar_instrucoes();
         } break;
         case(GANHADORES):
         {
