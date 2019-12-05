@@ -9,6 +9,8 @@
 
 
 static int menuSelected = 0;
+static Vector2 posicaojogador = { (float)LARGURATELA/2, (float)ALTURATELA/2 };
+static int delay = 0;
 
 //Vector2 posicaojogador = { (float)LARGURATELA/2, (float)ALTURATELA/2 };
 

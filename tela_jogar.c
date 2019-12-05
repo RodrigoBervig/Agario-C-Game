@@ -9,8 +9,7 @@
 - Conferir variáveis
 - ?
 */
-static Vector2 posicaojogador = { (float)LARGURATELA/2, (float)ALTURATELA/2 };
-static int delay = 0;
+
 
 
 void desenha_inimigos(){
