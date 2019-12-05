@@ -71,3 +71,16 @@ int inimigos_vivos;
 double cria_novos;
 //int delay = 0;
 //int conta_zoom = 0;
+
+/*COLORS: */
+#define POISON_GREEN CLITERAL(Color){115,222,73,255}
+#define POISON_GREEN_BORDER CLITERAL(Color){52,185,0,200}
+
+#define PLAYER_COLOR CLITERAL(Color){251,60,60,255}
+#define PLAYER_COLOR_BORDER CLITERAL(Color){217,9,9,200}
+
+#define EXPLOSIVE_COLOR CLITERAL(Color){30,30,30,255}
+#define EXPLOSIVE_COLOR_BORDER CLITERAL(Color){198,1,23,200}
+
+#define NORMAL_COLOR CLITERAL(Color){0,120,255,255}
+#define NORMAL_COLOR_BORDER CLITERAL(Color){0,94,200,255}

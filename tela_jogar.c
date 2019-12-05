@@ -17,13 +17,16 @@ void desenha_inimigos(){
     for(i=0;i<inimigos_vivos;i++){
         switch(inimigos[i].tipo){
             case 0:
-                DrawCircle(inimigos[i].p.x, inimigos[i].p.y, inimigos[i].r, BLUE);
+                DrawCircle(inimigos[i].p.x, inimigos[i].p.y, inimigos[i].r + inimigos[i].r * 0.1, NORMAL_COLOR_BORDER);
+                DrawCircle(inimigos[i].p.x, inimigos[i].p.y, inimigos[i].r, NORMAL_COLOR);
             break;
             case 1:
-                DrawCircle(inimigos[i].p.x, inimigos[i].p.y, inimigos[i].r, LIME);
+                DrawCircle(inimigos[i].p.x, inimigos[i].p.y, inimigos[i].r + inimigos[i].r * 0.1, POISON_GREEN_BORDER);
+                DrawCircle(inimigos[i].p.x, inimigos[i].p.y, inimigos[i].r, POISON_GREEN);
             break;
             case 2:
-                DrawCircle(inimigos[i].p.x, inimigos[i].p.y, inimigos[i].r, BLACK);
+                DrawCircle(inimigos[i].p.x, inimigos[i].p.y, inimigos[i].r + inimigos[i].r * 0.1, EXPLOSIVE_COLOR_BORDER);                                
+                DrawCircle(inimigos[i].p.x, inimigos[i].p.y, inimigos[i].r, EXPLOSIVE_COLOR);
             break;           
         }
     }    
@@ -266,10 +269,11 @@ void desenhajogo(){
     BeginDrawing();
                
     ClearBackground(RAYWHITE);
-    if(!jogador.envenenado)
-         DrawCircleV(posicaojogador, jogador.r, MAROON);
-    else
-         DrawCircleV(posicaojogador, jogador.r, MAGENTA);
+    if(!jogador.envenenado){
+        DrawCircle(posicaojogador.x, posicaojogador.y, jogador.r + jogador.r * 0.1, PLAYER_COLOR_BORDER);
+        DrawCircleV(posicaojogador, jogador.r, PLAYER_COLOR);
+    }else
+        DrawCircleV(posicaojogador, jogador.r, MAGENTA);
         
     /*if(conta_zoom){
         DrawText("O mundo esta ficando pequeno para voce!", 250, 125, 25, BLACK);
