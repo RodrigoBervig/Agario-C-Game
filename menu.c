@@ -8,7 +8,10 @@
 void chamaJogo()
 {
     jogo.telaAtual = JOGAR;
-    jogo.tempodejogo = 0;
+    jogo.tempodejogo = GetTime();
+    jogo.buffer = 0;
+    jogo.pausa = 0;
+    jogo.cria_novos = GetTime();
     
     jogador.vivo = 1;
     jogador.r = R_INICIO;
@@ -16,16 +19,12 @@ void chamaJogo()
     jogador.v = 2.5;
     
     inimigos_vivos = INIMIGOS_INICIO;
-    int i;
-    cria_novos = GetTime();
+    int i;    
     
     for(i=0;i<inimigos_vivos;i++){
         cria_inimigo(i);
-    }
+    }    
     
-    jogo.tempodejogo = GetTime();
-    jogo.buffer = 0;
-    jogo.pausa = 0;
 }
 
 
