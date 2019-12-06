@@ -4,8 +4,8 @@
 #include "globais.h"
 #include <math.h>
 /*FALTA:
-- Avaliar se muda a proporção normais/explosivas/venenosas
-- Poder salvar
+- Considerar se inimigos estão envenenados na desenha_inimigos
+- Carregar jogo (Menu). Obs: quando carregar, jogo.buffer tem que ser igual ao jogo.tempodejogo armazenado, e jogo.tempodejogo = GetTime
 - Conferir variáveis
 - ?
 */
@@ -14,7 +14,7 @@ void desenha_inimigos(){
     int i;
     for(i=0;i<inimigos_vivos;i++){
         switch(inimigos[i].tipo){
-            case 0:
+            case 0:     //CONSIDERAR, PARA CADA INIMIGO, O CASO DELE ESTAR ENVENENADO, EM FUNÇÃO DO DELAY 
                 DrawCircle(inimigos[i].p.x, inimigos[i].p.y, inimigos[i].r + inimigos[i].r * 0.1, NORMAL_COLOR_BORDER);
                 DrawCircle(inimigos[i].p.x, inimigos[i].p.y, inimigos[i].r, NORMAL_COLOR);
             break;
@@ -31,27 +31,29 @@ void desenha_inimigos(){
 }
 
 
-void cria_inimigo(int i){       //Cria novo inimigo, chamada periodicamente e quando jogador come um inimigo
+void cria_inimigo(int i){       //Cria novo inimigo, chamada periodicamente e um inimigo é consumido
 
     do{
         inimigos[i].p.y = GetRandomValue(-20*jogador.r, 20*jogador.r);
-    }while(abs(LARGURATELA/2 - inimigos[i].p.y) < (4*jogador.r) && !CheckCollisionCircles(inimigos[i-1].p, inimigos[i-1].r, inimigos[i].p, inimigos[i].r));
+    }while(abs(ALTURATELA/2 - inimigos[i].p.y) < (4*jogador.r));
     do{
         inimigos[i].p.x = GetRandomValue(-40*jogador.r, 40*jogador.r) ;
-    }while(abs(ALTURATELA - inimigos[i].p.x)< 4*jogador.r && !CheckCollisionCircles(inimigos[i-1].p, inimigos[i-1].r, inimigos[i].p, inimigos[i].r));    
+    }while(abs(LARGURATELA/2 - inimigos[i].p.x)< (4*jogador.r));
     
+    inimigos[i].envenenado = 0;
+    inimigos[i].delay = 0;
     inimigos[i].r = (int)floor(GetRandomValue(0.4*jogador.r, 1.5*jogador.r)); //Seta o raio do inimigo proporcional ao raio atual do Jogador
     inimigos[i].tipo = GetRandomValue(0,2);
     inimigos[i].mov = GetRandomValue(0,6);
     inimigos[i].vmodulo = 1 + 0.5*((int)floor(GetTime() - jogo.tempodejogo + jogo.buffer)/30); 
-    //a velocidade modulo (vmodulo) dos inimigos criados é (2 + n), onde n é o piso do número de períodos de 20s que já foram jogados
+    //a velocidade modulo (vmodulo) dos inimigos criados é (1 + 0,5*n), onde n é o piso do número de períodos de 30s que já foram jogados
 }
 
 
-void colisoes(){        //verifica se há alguma colisão entre o jogador e outro inimigo
-    int i;
+void colisoes(){        
+    int i, j;
     for(i=0;i<inimigos_vivos;i++){
-        if(abs(posicaojogador.x - inimigos[i].p.x)< 3*jogador.r || abs(posicaojogador.y - inimigos[i].p.y)< 3*jogador.r){     //verifica apenas para os inimigos que estão proximos do jogador
+        if(abs(posicaojogador.x - inimigos[i].p.x)< 3*jogador.r || abs(posicaojogador.y - inimigos[i].p.y)< 3*jogador.r){     //verifica, para os inimigos que estão proximos do jogador, se há alguma colisão
             if(CheckCollisionCircles(posicaojogador, jogador.r, inimigos[i].p, inimigos[i].r)){
                 if(jogador.r<inimigos[i].r || inimigos[i].tipo == EXPLOSIVA)
                     jogador.vivo = 0;
@@ -59,13 +61,34 @@ void colisoes(){        //verifica se há alguma colisão entre o jogador e outr
                     if(!jogador.envenenado){
                         if(inimigos[i].tipo == VENENOSA){       //se jogador come um inimigo venenoso, é envenenado
                             jogador.envenenado = 1;
-                            delay = GetTime();
+                            jogador.delay = GetTime();
                         }        
                         jogador.r += (inimigos[i].r/10);      //aumenta raio do jogador proporcionalmente à peça que ele comeu
                         cria_inimigo(i);
                     }                    
                 }
             }
+        }
+        
+        for(j=0;j<inimigos_vivos;i++){      //verifica se há alguma colisão entre dois inimigos próximos 
+            if(j!= i)
+                if(abs(inimigos[j].p.x) - inimigos[i].p.x)< 3*inimigos[i].r || abs(inimigos[j].p.x - inimigos[i].p.y)< 3*inimigos[i].r)
+                    if(CheckCollisionCircles(inimigos[j].p, inimigos[j].r, inimigos[i].p, inimigos[i].r)){
+                        if(inimigos[j].tipo == EXPLOSIVA || inimigos[i].tipo == EXPLOSIVA){
+                            cria_inimigo(i);
+                            cria_inimigo(j);
+                        }
+                        else if(inimigos[i].r<inimigos[j].r && !inimigos[j].envenenado)
+                            cria_inimigo(i);
+                        else if(!inimigos[i].envenenado){
+                            if(inimigos[j].tipo == VENENOSA){       //se um inimigo come um inimigo venenoso, é envenenado
+                                inimigos[i].envenenado = 1;
+                                inimigos[i].delay = GetTime();
+                            }
+                            inimigos[i].r += (inimigos[j].r/10);
+                            cria_inimigo(j);
+                        }
+                    }                
         }        
     }
 }
@@ -132,6 +155,23 @@ void desenha_pausa(){
     DrawText("- ESC (Sair do jogo)", LARGURATELA/2 - MeasureText("- ESC (Sair do jogo)", 17)/2, 360, 17, WHITE);
 }
 
+void salva_jogo(){
+    FILE *arquivo;
+    if(!(arquivo = fopen("meu_agario.bin;","wb")))
+        DrawText("Erro ao abrir arquivo", LARGURATELA/2, ALTURATELA/2, 25, WHITE);     //Informa erro na abertura de arquivo, caso aconteça
+    else{
+        
+    fwrite(&jogo,sizeof(JOGO),1,arquivo);
+    
+    fwrite(&jogador,sizeof(JOGADOR),1,arquivo);
+    
+    fwrite(&inimigos_vivos,sizeof(int),1,arquivo);
+        
+    fwrite(inimigos,sizeof(INIMIGO),inimigos_vivos,arquivo);
+    
+    }
+    fclose(arquivo);        //Fecha arquivo
+}
 
 void atualizajogo(){
     
@@ -148,7 +188,7 @@ void atualizajogo(){
     
     if(jogo.pausa){     //se jogo está pausado
         if(IsKeyPressed(KEY_S))
-            //salvar  -      EDITAR
+            salva_jogo();
         if(IsKeyPressed(KEY_M))
             jogo.telaAtual = MENU;
     }
@@ -195,36 +235,26 @@ void atualizajogo(){
         
         colisoes();         //verifica se jogador colidiu com algum inimigo
         
-        if((GetTime() - jogo.tempodejogo + jogo.buffer) - cria_novos > 30){        //Cria um inimigo novo a cada 30s de jogo, enquanto não houverem MAX_INIMIGOS
+        if((GetTime() - jogo.tempodejogo + jogo.buffer) - jogo.cria_novos > 30){        //Cria um inimigo novo a cada 30s de jogo, enquanto não houverem MAX_INIMIGOS
             if(inimigos_vivos < MAX_INIMIGOS){
                 cria_inimigo(inimigos_vivos);
                 inimigos_vivos++;
             }                
             for(i=0;i<5;i++)
                 cria_inimigo(GetRandomValue(0,inimigos_vivos));            
-            cria_novos = GetTime();
+            jogo.cria_novos = GetTime();
         }
         
         if(jogador.envenenado){     //se jogador está envenenado
-            if(GetTime() - delay > 3){     //quando se passam 3s desde que foi envenenado, passa o veneno e zera delay
+            if(GetTime() - jogador.delay > 3){     //quando se passam 3s desde que foi envenenado, passa o veneno
                 jogador.envenenado = 0;
             }
         }
         
         move_inimigos();
         
-        jogador.v = 3 + 0.5*((int)floor(GetTime() - jogo.tempodejogo + jogo.buffer)/30);
-        
-        /*if(!((int)(GetTime() - jogo.tempodejogo + jogo.buffer)%30))     //Para aumentar v do jogador com o passar do tempo
-            aumenta_v = 1;
-        
-        if(aumenta_v){
-            jogador.v += 0.5;
-            aumenta_v = 0;
-            printf("%f", jogador.v);
-        }*/
-        
-            
+        jogador.v = 3 + 0.5*((int)floor(GetTime() - jogo.tempodejogo + jogo.buffer)/30);        //a velocidade modulo (vmodulo) do jogador é (3 + 0,5*n), onde n é o piso do número de períodos de 30s que já foram jogados
+                
         
         /*if(jogador.r > 120){            
             conta_zoom = 1;
