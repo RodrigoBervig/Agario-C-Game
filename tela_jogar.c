@@ -70,9 +70,9 @@ void colisoes(){
             }
         }
         
-        for(j=0;j<inimigos_vivos;i++){      //verifica se há alguma colisão entre dois inimigos próximos 
-            if(j!= i)
-                if(abs(inimigos[j].p.x) - inimigos[i].p.x)< 3*inimigos[i].r || abs(inimigos[j].p.x - inimigos[i].p.y)< 3*inimigos[i].r)
+        for(j=0;j<inimigos_vivos;j++){      //verifica se há alguma colisão entre dois inimigos próximos 
+            if(j!= i){
+                if(abs(inimigos[j].p.x - inimigos[i].p.x)< 3*inimigos[i].r || abs(inimigos[j].p.x - inimigos[i].p.y)< 3*inimigos[i].r)
                     if(CheckCollisionCircles(inimigos[j].p, inimigos[j].r, inimigos[i].p, inimigos[i].r)){
                         if(inimigos[j].tipo == EXPLOSIVA || inimigos[i].tipo == EXPLOSIVA){
                             cria_inimigo(i);
@@ -89,6 +89,7 @@ void colisoes(){
                             cria_inimigo(j);
                         }
                     }                
+            }
         }        
     }
 }
