@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include "tela_jogar.h"
 
+
 void chamaJogo()
 {
     jogo.telaAtual = JOGAR;
@@ -44,39 +45,6 @@ void carregaJogo()
 }
 
 
-void TitleUpdate()
-{
-
-    if (IsKeyPressed(KEY_DOWN) || IsKeyPressed('S')){
-            menuSelected = (menuSelected + 1) % 5;
-            
-    }
-        else if (IsKeyPressed(KEY_UP) || IsKeyPressed('W')){
-            menuSelected = (menuSelected == 0)? menuSelected = 4 : --menuSelected; 
-
-        }
-        if (IsKeyPressed(KEY_ENTER)){
-            switch (menuSelected){
-                case 0: { //JOGAR
-                    chamaJogo();
-                } break;
-                case 1: {
-                    jogo.telaAtual = GANHADORES;
-                }
-                case 2: {
-                    jogo.telaAtual = INSTRUCOES;
-                }
-                case 3: {
-                    carregaJogo();
-                } break;
-                case 4: {                    
-                    CloseWindow();
-                } break;
-            }
-        }
-    }
-
-
 void TitleDraw()
 {
 
@@ -84,27 +52,27 @@ void TitleDraw()
 
         ClearBackground(BLACK);
 
-        DrawText("Agario", LARGURATELA/2 - MeasureText("Agario", 75)/2, ALTURATELA * 0.08, 75,  GREEN); 
+        DrawText("Agario", LARGURATELA/2 - MeasureText("Agario", 80)/2, ALTURATELA * 0.06, 80,  GREEN); 
         
         
         DrawText(((menuSelected == 0) ? "- Jogar -" : "Jogar"), // O que é desenhado (ver condicionais ternários)
             LARGURATELA/2 - MeasureText(((menuSelected == 0) ? "- Jogar -" : "Jogar"), 40)/2, //Posição x do texto
-            ALTURATELA * 0.28, //posição y do texto
+            ALTURATELA * 0.26, //posição y do texto
             40, //tamanho do texto
             (menuSelected == 0) ? BLUE : WHITE); //cor em que o texto vai estar
         DrawText(((menuSelected == 1) ? "- Score Board -" : "Score Board"), 
             LARGURATELA/2 - MeasureText(((menuSelected == 1) ? "- Score Board -" : "Score Board"), 40)/2, 
-            ALTURATELA * 0.42, 
+            ALTURATELA * 0.38, 
             40, 
             (menuSelected == 1) ? BLUE : WHITE);
         DrawText(((menuSelected == 2) ? "- Instructions -" : "Instructions"), 
             LARGURATELA/2 - MeasureText(((menuSelected == 2) ? "- Instructions -" : "Instructions"), 40)/2, 
-            ALTURATELA * 0.56, 
+            ALTURATELA * 0.52, 
             40, 
             (menuSelected == 2) ? BLUE : WHITE);
         DrawText(((menuSelected == 3) ? "- Carregar Jogo -" : "Carregar Jogo"), 
             LARGURATELA/2 - MeasureText(((menuSelected == 3) ? "- Carregar Jogo -" : "Carregar Jogo"), 40)/2, 
-            ALTURATELA * 0.68, 
+            ALTURATELA * 0.66, 
             40, 
             (menuSelected == 3) ? BLUE : WHITE);
         DrawText(((menuSelected == 4) ? "- Sair -" : "Sair"), 
@@ -127,3 +95,35 @@ void TitleDraw()
         
         EndDrawing();
     }
+
+void TitleUpdate()
+{
+
+    if (IsKeyPressed(KEY_DOWN) || IsKeyPressed('S')){
+            menuSelected = (menuSelected + 1) % 5;
+            
+    }
+    else if (IsKeyPressed(KEY_UP) || IsKeyPressed('W')){
+        menuSelected = (menuSelected == 0)? menuSelected = 4 : --menuSelected; 
+
+    }
+    if (IsKeyPressed(KEY_ENTER)){
+        switch (menuSelected){
+            case 0: { //JOGAR
+                chamaJogo();
+            } break;
+            case 1: {
+                jogo.telaAtual = GANHADORES;
+            } break;
+            case 2: {
+                jogo.telaAtual = INSTRUCOES;
+            } break;
+            case 3: {
+                carregaJogo();
+            } break;
+            case 4: {                    
+                CloseWindow();
+            } break;
+        }
+    }
+}

@@ -6,6 +6,7 @@
 
 void increaseFramesCounter();
 void DrawUserInput(char *messageScore, char* nome, int letterCount);
+void salvaHighScore(char* name);
 
 void drawFinal()
 {
@@ -28,6 +29,7 @@ void drawFinal()
         int key = GetKeyPressed();
 
         while (key > 0){
+
             // NOTE: Only allow keys in range [32..125]
             if ((key >= 32) && (key <= 125) && (letterCount < MAX_INPUT_CHARS)){
                 name[letterCount] = (char)key;
@@ -35,6 +37,10 @@ void drawFinal()
             }
                 
             key = GetKeyPressed();  // Checa o próximo caractere na fila
+        }
+        if(IsKeyPressed(KEY_ENTER) && letterCount){ // se o jogador apertar enter e tiver caracteres na caixa
+            jogo.telaAtual = MENU;
+            salvaHighScore(name);
         }
 
         if (IsKeyPressed(KEY_BACKSPACE)){
@@ -107,4 +113,16 @@ void increaseFramesCounter()
 {
     if(framesCounter > 10000) framesCounter = 0;
     else framesCounter++;    
+}
+
+void salvaHighScore(char* name)
+{
+    FILE *arquivo;
+    if(!(arquivo = fopen("ganhadores.bin","a+b")))
+        DrawText("Erro ao abrir arquivo", LARGURATELA/2, ALTURATELA/2, 25, WHITE);     //Informa erro na abertura de arquivo, caso aconteça
+    else {   
+        fwrite(name, sizeof(name), 1, arquivo);
+        fwrite(name, sizeof(double), 1, arquivo);
+    }
+    fclose(arquivo);      
 }

@@ -11,28 +11,24 @@
 void atualizadesenho();
 
 int main(){
-     // Inicializa
-    //--------------------------------------------------------------------------------------
-        
-    InitWindow(LARGURATELA, ALTURATELA, "agario.c");
+     
+    InitWindow(LARGURATELA, ALTURATELA, "AGARIO.C");
     
     jogo.telaAtual = MENU;      //inicializar tela atual do jogo como menu
     
-    //--------------------------------------------------------------------------------------
     
-    SetTargetFPS(60);               // Jogo roda a 60 FPS
+    SetTargetFPS(60); // Jogo roda a 60 frames/segundo
     
         
-     // Main game loop
-    while (!WindowShouldClose())    // Detecta se fecha a janela de jogo ou aperta tecla Esc
+    // Main loop game
+    while (!WindowShouldClose()) // Detecta se fecha a janela de jogo ou aperta tecla Esc
     {                
         atualizadesenho();        
     }
 
     // Encerra
-    //--------------------------------------------------------------------------------------
-    CloseWindow();        // Close window and OpenGL context
-    //--------------------------------------------------------------------------------------
+    CloseWindow();
+
 
     return 0;
 }
@@ -50,10 +46,6 @@ void atualizadesenho(){
             atualizar_instrucoes();
         } break;
         case(GANHADORES):
-        {
-            //
-        } break;
-        case(CARREGAR):
         {
             //
         } break;
