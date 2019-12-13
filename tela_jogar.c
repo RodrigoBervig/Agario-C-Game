@@ -123,8 +123,9 @@ void move_inimigos(){
     for(i=0;i<inimigos_vivos;i++){
         switch(inimigos[i].mov){
             case(ALEATORIA):{
-                switch((int)floor(GetRandomValue(1, 4))){
+                switch((int)floor(GetRandomValue(1, 5))){
                     case 1:
+                    case 5:
                     inimigos[i].p.x += inimigos[i].vmodulo;
                     break;
                     case 2:
