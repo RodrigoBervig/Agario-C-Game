@@ -3,6 +3,7 @@
 #include "physac.h"
 #include "globais.h"
 #include <stdlib.h>
+#include <stdio.h>
 #include "tela_jogar.h"
 
 void chamaJogo()
@@ -25,6 +26,21 @@ void chamaJogo()
         cria_inimigo(i);
     }    
     
+}
+
+void carregaJogo()
+{
+    jogo.telaAtual = JOGAR;
+    FILE *file;
+    if(!(file = fopen("meu_agario.bin", "rb"))){
+        DrawText("Não há nenhum jogo salvo!", LARGURATELA/2, ALTURATELA/2, 25, WHITE);
+    } else {
+        fread(&jogo, sizeof(JOGO), 1, file);
+        fread(&jogador, sizeof(JOGADOR), 1, file);
+        fread(&inimigos_vivos, sizeof(int),1, file);
+        fread(inimigos, sizeof(INIMIGO), inimigos_vivos, file);
+        fclose(file);
+    }
 }
 
 
@@ -51,8 +67,8 @@ void TitleUpdate()
                     jogo.telaAtual = INSTRUCOES;
                 }
                 case 3: {
-                    jogo.telaAtual = CARREGAR;
-                }
+                    carregaJogo();
+                } break;
                 case 4: {                    
                     CloseWindow();
                 } break;

@@ -158,19 +158,18 @@ void desenha_pausa(){
 
 void salva_jogo(){
     FILE *arquivo;
-    if(!(arquivo = fopen("meu_agario.bin;","wb")))
+    if(!(arquivo = fopen("meu_agario.bin","wb")))
         DrawText("Erro ao abrir arquivo", LARGURATELA/2, ALTURATELA/2, 25, WHITE);     //Informa erro na abertura de arquivo, caso aconteça
-    else{
+    else {   
+        fwrite(&jogo, sizeof(JOGO),1,arquivo);
+    
+        fwrite(&jogador, sizeof(JOGADOR),1,arquivo);
+    
+        fwrite(&inimigos_vivos, sizeof(int),1,arquivo);
         
-    fwrite(&jogo,sizeof(JOGO),1,arquivo);
-    
-    fwrite(&jogador,sizeof(JOGADOR),1,arquivo);
-    
-    fwrite(&inimigos_vivos,sizeof(int),1,arquivo);
-        
-    fwrite(inimigos,sizeof(INIMIGO),inimigos_vivos,arquivo);
-    
+        fwrite(inimigos, sizeof(INIMIGO), inimigos_vivos, arquivo);
     }
+
     fclose(arquivo);        //Fecha arquivo
 }
 
@@ -282,10 +281,25 @@ void atualizajogo(){
     }
 }
 
+void makeGrid()
+{
+    int i;
+    for(i = 0; i < ALTURATELA; i += ALTURATELA/10){
+        DrawLineEx((Vector2){0,i}, (Vector2){LARGURATELA,i}, 1, GRID_COLOR);   
+    }
+    for(i = 0; i < LARGURATELA; i += LARGURATELA/15){
+        DrawLineEx((Vector2){i,0}, (Vector2){i,ALTURATELA}, 1, GRID_COLOR);   
+    }
+
+}
+
 void desenhajogo(){
     BeginDrawing();
                
     ClearBackground(RAYWHITE);
+
+    makeGrid();
+
     if(!jogador.envenenado){
         DrawCircle(posicaojogador.x, posicaojogador.y, jogador.r + jogador.r * 0.1, PLAYER_COLOR_BORDER);
         DrawCircleV(posicaojogador, jogador.r, PLAYER_COLOR);

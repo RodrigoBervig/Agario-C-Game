@@ -6,6 +6,7 @@
 #define LARGURATELA 1000
 #define INIMIGOS_INICIO 25
 #define MAX_INIMIGOS 50
+#define MAX_INPUT_CHARS 17
 
 /*COLORS*/
 #define POISON_GREEN CLITERAL(Color){115,222,73,255}
@@ -22,6 +23,8 @@
 
 #define PLAYER_POISONED_COLOR CLITERAL(Color){176,0,234,255}
 #define PLAYER_POISONED_COLOR_BORDER CLITERAL(Color){148,120,197,255}
+
+#define GRID_COLOR CLITERAL(Color){200, 200, 200, 150}
 
 //structs:
 
@@ -80,6 +83,7 @@ int inimigos_vivos;
 
 static int menuSelected = 0;
 static Vector2 posicaojogador = { (float)LARGURATELA/2, (float)ALTURATELA/2 };
+static int framesCounter = 0;
 
 //int conta_zoom = 0;
 

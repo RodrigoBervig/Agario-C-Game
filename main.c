@@ -5,6 +5,7 @@
 #include "tela_instrucoes.h"
 #include "tela_jogar.h"
 #include "menu.h"
+#include "tela_final.h"
 
 //funções
 void atualizadesenho();
@@ -15,7 +16,7 @@ int main(){
         
     InitWindow(LARGURATELA, ALTURATELA, "agario.c");
     
-    jogo.telaAtual = MENU;      //inicializar telaatual do jogo como menu
+    jogo.telaAtual = MENU;      //inicializar tela atual do jogo como menu
     
     //--------------------------------------------------------------------------------------
     
@@ -63,7 +64,7 @@ void atualizadesenho(){
         } break;
         case(FINAL):
         {
-            //
+            drawFinal();
         } break;
     }   
 }
