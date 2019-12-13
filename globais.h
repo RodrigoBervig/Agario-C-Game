@@ -39,9 +39,9 @@ typedef enum tela{
 }TELA;
 
 typedef enum idtipo{
-    NORMAL = 0,       //BLUE = NORMAL
-    VENENOSA,       //LIME = VENENOSA
-    EXPLOSIVA       //BLACK = EXPLOSIVA
+    NORMAL = 0,       
+    VENENOSA,       
+    EXPLOSIVA       
 }IDTIPO;
 
 typedef enum idmov{
