@@ -4,20 +4,24 @@
 #include "globais.h"
 #include "tela_final.h"
 #include <math.h>
+
 /*FALTA:
 - Considerar se inimigos estão envenenados na desenha_inimigos
-- Carregar jogo (Menu). Obs: quando carregar, jogo.buffer tem que ser igual ao jogo.tempodejogo armazenado, e jogo.tempodejogo = GetTime
-- Conferir variáveis
-- ?
 */
 
+//desenha todos os inimigos, segundo seu tipo. Inimigos do tipo normal podem estar envenenados, o que altera sua cor
 void desenha_inimigos(){
     int i;
     for(i=0;i<inimigos_vivos;i++){
         switch(inimigos[i].tipo){
-            case 0:     //CONSIDERAR, PARA CADA INIMIGO, O CASO DELE ESTAR ENVENENADO, EM FUNÇÃO DO DELAY 
-                DrawCircle(inimigos[i].p.x, inimigos[i].p.y, inimigos[i].r + inimigos[i].r * 0.1, NORMAL_COLOR_BORDER);
-                DrawCircle(inimigos[i].p.x, inimigos[i].p.y, inimigos[i].r, NORMAL_COLOR);
+            case 0:     
+                if(!inimigos[i].envenenado){
+                    DrawCircle(inimigos[i].p.x, inimigos[i].p.y, inimigos[i].r + inimigos[i].r * 0.1, NORMAL_COLOR_BORDER);     //ESCOLHER COR DO INIMIGO QUANDO ENVENENADO
+                    DrawCircle(inimigos[i].p.x, inimigos[i].p.y, inimigos[i].r, NORMAL_COLOR);      //ESCOLHER COR DO INIMIGO QUANDO ENVENENADO
+                }else{
+                    DrawCircle(inimigos[i].p.x, inimigos[i].p.y, inimigos[i].r + inimigos[i].r * 0.1, NORMAL_COLOR_BORDER);
+                    DrawCircle(inimigos[i].p.x, inimigos[i].p.y, inimigos[i].r, NORMAL_COLOR);
+                }                
             break;
             case 1:
                 DrawCircle(inimigos[i].p.x, inimigos[i].p.y, inimigos[i].r + inimigos[i].r * 0.1, POISON_GREEN_BORDER);
@@ -31,12 +35,12 @@ void desenha_inimigos(){
     }    
 }
 
-
-void cria_inimigo(int i){       //Cria novo inimigo, chamada periodicamente e um inimigo é consumido
-
+ //Cria novo inimigo, chamada periodicamente quando se aumenta numero de inimigos vivos e quando um inimigo é consumido, para recriá-lo
+void cria_inimigo(int i){      
+     
     do{
-        inimigos[i].p.y = GetRandomValue(-20*jogador.r, 20*jogador.r);
-    }while(abs(ALTURATELA/2 - inimigos[i].p.y) < (4*jogador.r));
+        inimigos[i].p.y = GetRandomValue(-20*jogador.r, 20*jogador.r);      //as coordenadas x e y  em que o inimigo é criado são aleatória e a distância em que eles aparecem do jogador é proporcional ao seu raio.
+    }while(abs(ALTURATELA/2 - inimigos[i].p.y) < (4*jogador.r));            //isso foi feito para que não apareçam longe demais do jogador. Ainda, eles devem aparecer suficientemente longe do jogador para que não surjam em cima do mesmo
     do{
         inimigos[i].p.x = GetRandomValue(-40*jogador.r, 40*jogador.r) ;
     }while(abs(LARGURATELA/2 - inimigos[i].p.x)< (4*jogador.r));
@@ -50,22 +54,22 @@ void cria_inimigo(int i){       //Cria novo inimigo, chamada periodicamente e um
     //a velocidade modulo (vmodulo) dos inimigos criados é (1 + 0,5*n), onde n é o piso do número de períodos de 30s que já foram jogados
 }
 
-
+//verifica se estão ocorrendo colisões no jogo, tanto entre inimigos quanto entre o jogador e um inimigo.
 void colisoes(){        
     int i, j;
     for(i=0;i<inimigos_vivos;i++){
         if(abs(posicaojogador.x - inimigos[i].p.x)< 3*jogador.r || abs(posicaojogador.y - inimigos[i].p.y)< 3*jogador.r){     //verifica, para os inimigos que estão proximos do jogador, se há alguma colisão
             if(CheckCollisionCircles(posicaojogador, jogador.r, inimigos[i].p, inimigos[i].r)){
-                if(jogador.r<inimigos[i].r || inimigos[i].tipo == EXPLOSIVA)
+                if(jogador.r<inimigos[i].r || inimigos[i].tipo == EXPLOSIVA)        //se o jogadro colide com um inimigo de raio maior ou do tipo EXPLOSIVA, perde
                     jogador.vivo = 0;
                 else{
                     if(!jogador.envenenado){
-                        if(inimigos[i].tipo == VENENOSA){       //se jogador come um inimigo venenoso, é envenenado
+                        if(inimigos[i].tipo == VENENOSA){       //se jogador colide com um inimigo venenoso, é envenenado
                             jogador.envenenado = 1;
                             jogador.delay = GetTime();
                         }        
-                        jogador.r += (inimigos[i].r/10);      //aumenta raio do jogador proporcionalmente à peça que ele comeu
-                        cria_inimigo(i);
+                        jogador.r += (inimigos[i].r/10);      //aumenta raio do jogador proporcionalmente à peça com que ele colidiu
+                        cria_inimigo(i);        //o inimigos[i], que foi consumido, é recriado
                     }                    
                 }
             }
@@ -75,19 +79,19 @@ void colisoes(){
             if(j!= i){
                 if(abs(inimigos[j].p.x - inimigos[i].p.x)< 3*inimigos[i].r || abs(inimigos[j].p.x - inimigos[i].p.y)< 3*inimigos[i].r)
                     if(CheckCollisionCircles(inimigos[j].p, inimigos[j].r, inimigos[i].p, inimigos[i].r)){
-                        if(inimigos[j].tipo == EXPLOSIVA || inimigos[i].tipo == EXPLOSIVA){
-                            cria_inimigo(i);
+                        if(inimigos[j].tipo == EXPLOSIVA || inimigos[i].tipo == EXPLOSIVA){     //se há uma colisão que envolva um inimigo explosivo, os dois envolvidos na colisão são recriados
+                            cria_inimigo(i);        //recriação de ambos
                             cria_inimigo(j);
                         }
-                        else if(inimigos[i].r<inimigos[j].r && !inimigos[j].envenenado)
+                        else if(inimigos[i].r<inimigos[j].r && !inimigos[j].envenenado)     //se inimigos[i] colide com um inimigos[j] que é maior e não está envenenado, i é recriado
                             cria_inimigo(i);
-                        else if(!inimigos[i].envenenado){
-                            if(inimigos[j].tipo == VENENOSA){       //se um inimigo come um inimigo venenoso, é envenenado
+                        else if(inimigos[i].r>=inimigos[j].r && !inimigos[i].envenenado){       //se inimigos[i] é maior ou igual a inimigos[j] e não está envenenado, j é recriado
+                            if(inimigos[j].tipo == VENENOSA && inimigos[i].tipo != VENENOSA){       //se um inimigo não venenoso consome um inimigo venenoso, é envenenado
                                 inimigos[i].envenenado = 1;
                                 inimigos[i].delay = GetTime();
                             }
-                            inimigos[i].r += (inimigos[j].r/10);
-                            cria_inimigo(j);
+                            inimigos[i].r += (inimigos[j].r/10);        //inimigos[i] cresce proporcionalmente ao inimigo que consumiu
+                            cria_inimigo(j);    //recriação do inimigo j
                         }
                     }                
             }
@@ -95,6 +99,23 @@ void colisoes(){
     }
 }
 
+//avalia se o jogador ou inimigos estao envenenados, e quando necessário, cessa o efeito do veneno
+void passa_veneno(){
+    if(jogador.envenenado){     //se jogador está envenenado
+            if(GetTime() - jogador.delay > 3){     //quando se passam 3s desde que foi envenenado, passa o veneno
+                jogador.envenenado = 0;
+            }
+    }
+    for(i=0;i<inimigos_vivos;i++){
+        if(inimigos[i].envenenado){     //se o inimigo está envenenado
+            if(GetTime() - inimigos[i].delay > 3){     //quando se passam 3s desde que foi envenenado, passa o veneno
+                inimigos[i].envenenado = 0;
+            }
+        }
+    }
+}
+
+//movimenta os inimigos segundo seu tipo. Inimigos do tipo ESTATICA nao se movem
 void move_inimigos(){
     
     int i;
@@ -146,6 +167,7 @@ void move_inimigos(){
     
 }
 
+//desenha o menu de pausa
 void desenha_pausa(){
     DrawRectangleGradientV(250, 150, 500, 250, RED, LIGHTGRAY);
     DrawRectangleLines(250, 150, 500, 250, BLACK);
@@ -157,6 +179,7 @@ void desenha_pausa(){
     DrawText("- ESC (Sair do jogo)", LARGURATELA/2 - MeasureText("- ESC (Sair do jogo)", 17)/2, 360, 17, WHITE);
 }
 
+//se o usuario chama esta funçao, salva o estado atual do jogo, permitindo retomar a partir destas condiçoes
 void salva_jogo(){
     FILE *arquivo;
     if(!(arquivo = fopen("meu_agario.bin","wb")))
@@ -172,6 +195,19 @@ void salva_jogo(){
     }
 
     fclose(arquivo);        //Fecha arquivo
+}
+
+//desenha uma grade para melhor visualização do jogo
+void makeGrid()
+{
+    int i;
+    for(i = 0; i < ALTURATELA; i += ALTURATELA/10){
+        DrawLineEx((Vector2){0,i}, (Vector2){LARGURATELA,i}, 1, GRID_COLOR);   
+    }
+    for(i = 0; i < LARGURATELA; i += LARGURATELA/15){
+        DrawLineEx((Vector2){i,0}, (Vector2){i,ALTURATELA}, 1, GRID_COLOR);   
+    }
+
 }
 
 void atualizajogo(){
@@ -197,16 +233,14 @@ void atualizajogo(){
     
     else if(jogador.vivo && !jogo.pausa){
         int i;        
-        //double tzoom = 0;
-        
+               
         if(IsKeyDown(KEY_RIGHT)){       //movimenta jogo, se usuário aperta RIGHT
             for(i=0;i<inimigos_vivos;i++){
                 inimigos[i].p.x -= jogador.v;
                 if(inimigos[i].p.x < -2*LARGURATELA)        //reposiciona inimigos que ficarem longe demais
                     cria_inimigo(i);                    
             } 
-        }
-        
+        }        
         
         if(IsKeyDown(KEY_LEFT)){        //movimenta jogo, se usuário aperta LEFT
             for(i=0;i<inimigos_vivos;i++){
@@ -215,8 +249,7 @@ void atualizajogo(){
                     cria_inimigo(i);
                 } 
         }
-        
-        
+                
         if(IsKeyDown(KEY_UP)){      //movimenta jogo, se usuário aperta UP
             for(i=0;i<inimigos_vivos;i++){
                 inimigos[i].p.y += jogador.v;
@@ -224,8 +257,7 @@ void atualizajogo(){
                     cria_inimigo(i);
             } 
         }
-        
-        
+                
         if(IsKeyDown(KEY_DOWN)){        //movimenta jogo, se usuário aperta DOWN
             for(i=0;i<inimigos_vivos;i++){
                 inimigos[i].p.y -= jogador.v;
@@ -234,46 +266,22 @@ void atualizajogo(){
             } 
         }
         
-        colisoes();         //verifica se jogador colidiu com algum inimigo
+        colisoes();         
         
         if((GetTime() - jogo.tempodejogo + jogo.buffer) - jogo.cria_novos > 30){        //Cria um inimigo novo a cada 30s de jogo, enquanto não houverem MAX_INIMIGOS
             if(inimigos_vivos < MAX_INIMIGOS){
                 cria_inimigo(inimigos_vivos);
                 inimigos_vivos++;
             }                
-            for(i=0;i<5;i++)
-                cria_inimigo(GetRandomValue(0,inimigos_vivos));            
+                       
             jogo.cria_novos = GetTime();
         }
         
-        if(jogador.envenenado){     //se jogador está envenenado
-            if(GetTime() - jogador.delay > 3){     //quando se passam 3s desde que foi envenenado, passa o veneno
-                jogador.envenenado = 0;
-            }
-        }
-        
+        passa_veneno();
+                
         move_inimigos();
         
-        jogador.v = 3 + 0.5*((int)floor(GetTime() - jogo.tempodejogo + jogo.buffer)/30);        //a velocidade modulo (vmodulo) do jogador é (3 + 0,5*n), onde n é o piso do número de períodos de 30s que já foram jogados
-                
-        
-        /*if(jogador.r > 120){            
-            conta_zoom = 1;
-            tzoom = GetTime();         
-        }
-        
-        if(conta_zoom){
-            if(((GetTime() - tzoom) == 1)){
-                for(i=0;i<inimigos_vivos;i++)
-                    inimigos[i].r -= 30;
-                jogador.r -= 30;
-                
-                conta_zoom++;
-                if(conta_zoom = 4)
-                    conta_zoom = 0;
-                tzoom = GetTime();
-            }            
-        }*/           
+        jogador.v = 3 + 0.5*((int)floor(GetTime() - jogo.tempodejogo + jogo.buffer)/30);        //a velocidade modulo (vmodulo) do jogador é (3 + 0,5*n), onde n é o piso do número de períodos de 30s que já foram jogados        
         
     }  
     else if(!jogador.vivo){
@@ -281,18 +289,6 @@ void atualizajogo(){
         jogo.telaAtual = FINAL;
         jogo.tempodejogo = GetTime() - jogo.tempodejogo + jogo.buffer;
     }
-}
-
-void makeGrid()
-{
-    int i;
-    for(i = 0; i < ALTURATELA; i += ALTURATELA/10){
-        DrawLineEx((Vector2){0,i}, (Vector2){LARGURATELA,i}, 1, GRID_COLOR);   
-    }
-    for(i = 0; i < LARGURATELA; i += LARGURATELA/15){
-        DrawLineEx((Vector2){i,0}, (Vector2){i,ALTURATELA}, 1, GRID_COLOR);   
-    }
-
 }
 
 void desenhajogo(){
@@ -308,14 +304,10 @@ void desenhajogo(){
     }else{
         DrawCircle(posicaojogador.x, posicaojogador.y, jogador.r + jogador.r * 0.1, PLAYER_POISONED_COLOR_BORDER);
         DrawCircleV(posicaojogador, jogador.r, PLAYER_POISONED_COLOR);
-    }
-        
-    /*if(conta_zoom){
-        DrawText("O mundo esta ficando pequeno para voce!", 250, 125, 25, BLACK);
-        DrawText("(Zoom out)", 430, 160, 20, BLACK);
-    }*/
-        
+    }        
+            
     desenha_inimigos();
+    
     if(jogo.pausa)
             desenha_pausa();
     else
