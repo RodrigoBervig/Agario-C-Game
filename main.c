@@ -20,7 +20,7 @@ int main(){
     SetTargetFPS(60); // Jogo roda a 60 frames/segundo
     
     // Main loop game
-    while (!WindowShouldClose()) // Detecta se fecha a janela de jogo ou aperta tecla Esc
+    while (!WindowShouldClose()) // Executa loop enquanto usuário não apertar tecla Esc
     {                
         atualizadesenho();        
     }
