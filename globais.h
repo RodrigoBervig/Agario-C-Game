@@ -84,6 +84,7 @@ int inimigos_vivos;
 static int menuSelected = 0;
 static Vector2 posicaojogador = { (float)LARGURATELA/2, (float)ALTURATELA/2 };
 static int framesCounter = 0;
-
-//int conta_zoom = 0;
-
+static char name[MAX_INPUT_CHARS + 1] = "\0"; 
+static int letterCount = 0;
+static char score[10] = "\0";
+static char messageScore[50] = "\0";

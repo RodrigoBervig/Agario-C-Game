@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "raylib.h"
 #include "globais.h"
+#include "tela_final.h"
 #include <math.h>
 /*FALTA:
 - Considerar se inimigos estão envenenados na desenha_inimigos
@@ -276,6 +277,7 @@ void atualizajogo(){
         
     }  
     else if(!jogador.vivo){
+        setFinalVariables();
         jogo.telaAtual = FINAL;
         jogo.tempodejogo = GetTime() - jogo.tempodejogo + jogo.buffer;
     }
