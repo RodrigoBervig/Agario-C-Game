@@ -89,5 +89,8 @@ static char name[MAX_INPUT_CHARS + 1] = "\0";
 static int letterCount = 0;
 static char score[10] = "\0";
 static char messageScore[50] = "\0";
+<<<<<<< HEAD
 static char nomeGanhadores[MAX_HIGHSCORES][19];
 static char scoreGanhadoresString[MAX_HIGHSCORES][10];
+=======
+>>>>>>> master
