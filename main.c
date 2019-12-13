@@ -5,6 +5,7 @@
 #include "tela_instrucoes.h"
 #include "tela_jogar.h"
 #include "menu.h"
+#include "tela_ganhadores.h"
 #include "tela_final.h"
 
 //funções
@@ -15,6 +16,7 @@ int main(){
     InitWindow(LARGURATELA, ALTURATELA, "AGARIO.C");
     
     jogo.telaAtual = MENU;      //inicializar tela atual do jogo como menu
+    readGanhadores();
     
     
     SetTargetFPS(60); // Jogo roda a 60 frames/segundo
@@ -46,7 +48,7 @@ void atualizadesenho(){
         } break;
         case(GANHADORES):
         {
-            //
+            desenharGanhadores();
         } break;
         case(JOGAR):
         {   

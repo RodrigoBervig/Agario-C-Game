@@ -7,6 +7,7 @@
 #include "tela_jogar.h"
 
 
+
 void chamaJogo()
 {
     jogo.telaAtual = JOGAR;

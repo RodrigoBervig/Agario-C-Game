@@ -277,9 +277,10 @@ void atualizajogo(){
         
     }  
     else if(!jogador.vivo){
-        setFinalVariables();
         jogo.telaAtual = FINAL;
+        resetFinalVariables();
         jogo.tempodejogo = GetTime() - jogo.tempodejogo + jogo.buffer;
+        setFinalVariables();
     }
 }
 

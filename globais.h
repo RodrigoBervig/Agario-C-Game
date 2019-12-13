@@ -25,6 +25,7 @@
 #define PLAYER_POISONED_COLOR_BORDER CLITERAL(Color){148,120,197,255}
 
 #define GRID_COLOR CLITERAL(Color){200, 200, 200, 150}
+#define MAX_HIGHSCORES 5
 
 //structs:
 
@@ -88,3 +89,5 @@ static char name[MAX_INPUT_CHARS + 1] = "\0";
 static int letterCount = 0;
 static char score[10] = "\0";
 static char messageScore[50] = "\0";
+static char nomeGanhadores[MAX_HIGHSCORES][19];
+static char scoreGanhadoresString[MAX_HIGHSCORES][10];
