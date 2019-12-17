@@ -1,3 +1,3 @@
 void desenharGanhadores();
 void readGanhadores();
-void readGanhadores();
+void atualizar_ganhadores();

@@ -49,6 +49,7 @@ void atualizadesenho(){
         case(GANHADORES):
         {
             desenharGanhadores();
+            atualizar_ganhadores();
         } break;
         case(JOGAR):
         {   

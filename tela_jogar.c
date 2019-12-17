@@ -101,6 +101,7 @@ void colisoes(){
 
 //avalia se o jogador ou inimigos estao envenenados, e quando necessário, cessa o efeito do veneno
 void passa_veneno(){
+    int i;
     if(jogador.envenenado){     //se jogador está envenenado
             if(GetTime() - jogador.delay > 3){     //quando se passam 3s desde que foi envenenado, passa o veneno
                 jogador.envenenado = 0;

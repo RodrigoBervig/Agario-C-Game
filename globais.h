@@ -76,11 +76,18 @@ typedef struct jogo{
     double tempodejogo, buffer;    
 }JOGO;
 
+typedef struct ganhador{
+    char nome[19];
+    char score[10];
+}GANHADOR;
+
 //variáveis :
 JOGO jogo;
 JOGADOR jogador;
 INIMIGO inimigos[MAX_INIMIGOS];
 int inimigos_vivos;
+
+GANHADOR ganhadores[5];
 
 static int menuSelected = 0;
 static Vector2 posicaojogador = { (float)LARGURATELA/2, (float)ALTURATELA/2 };
@@ -89,8 +96,3 @@ static char name[MAX_INPUT_CHARS + 1] = "\0";
 static int letterCount = 0;
 static char score[10] = "\0";
 static char messageScore[50] = "\0";
-<<<<<<< HEAD
-static char nomeGanhadores[MAX_HIGHSCORES][19];
-static char scoreGanhadoresString[MAX_HIGHSCORES][10];
-=======
->>>>>>> master
