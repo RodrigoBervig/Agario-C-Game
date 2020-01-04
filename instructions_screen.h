@@ -1,0 +1,2 @@
+void updateInstructions();
+void drawInstructions();

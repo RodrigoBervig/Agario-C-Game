@@ -1,60 +1,55 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "raylib.h"
-#include "globais.h"
-#include "tela_instrucoes.h"
-#include "tela_jogar.h"
+#include "globals.h"
+#include "instructions_screen.h"
+#include "play_screen.h"
 #include "menu.h"
-#include "tela_ganhadores.h"
-#include "tela_final.h"
+#include "winners_screen.h"
+#include "final_screen.h"
 
-//funções
-void atualizadesenho();
+void updateScreen();
 
 int main(){
      
-    InitWindow(LARGURATELA, ALTURATELA, "AGARIO.C");
+    InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "AGARIO.C");
     
-    jogo.telaAtual = MENU;      //inicializar tela atual do jogo como menu
-    readGanhadores();
+    game.currentScreen = MENU; //the game starts with Menu screen.
+    readWinners();
     
-    
-    SetTargetFPS(60); // Jogo roda a 60 frames/segundo
+    SetTargetFPS(60); // set game to 60 fps
     
     // Main loop game
-    while (!WindowShouldClose()) // Executa loop enquanto usuário não apertar tecla Esc
+    while (!WindowShouldClose()) // Execute game while player does not press Esc
     {                
-        atualizadesenho();        
+        updateScreen();        
     }
 
-    // Encerra
     CloseWindow();
-
-
     return 0;
 }
 
-void atualizadesenho(){
-    switch(jogo.telaAtual){
+void updateScreen(){
+    switch(game.currentScreen){
         case(MENU):
         {
             TitleDraw();
             TitleUpdate();
         } break;
-        case(INSTRUCOES):
+        case(INSTRUCTIONS):
         {
-            desenhar_instrucoes();
-            atualizar_instrucoes();
+            drawInstructions();
+            updateInstructions();
         } break;
-        case(GANHADORES):
+        case(WINNERS):
         {
-            desenharGanhadores();
-            atualizar_ganhadores();
+            drawWinners();
+            updateWinners();
         } break;
-        case(JOGAR):
+        case(PLAY):
         {   
-            atualizajogo();
-            desenhajogo();
+            updateScreen();
+            drawGame();
         } break;
         case(FINAL):
         {
